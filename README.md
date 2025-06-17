@@ -1,1 +1,2 @@
-# akwa_services
+# akwa_hotels
+hotel booking platform
