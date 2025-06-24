@@ -38,11 +38,9 @@ THIRD_PARTY_APPS=[
     'drf_yasg',
     'djoser',
     'social_django',
-    'schema_graph',
-    # 'sync_model',
 ]
 CORE_APPS = [
-  
+    'mainapps.services'
 ]
 INSTALLED_APPS=[
 ]
@@ -60,11 +58,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'middleware.ip_address_middleware.IPBlackListMiddleware',
-    'middleware.time_zone.TimezoneMiddleware'
 ]
 
-BANNED_IPS=['127.0.0.']
 
 ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
@@ -277,15 +272,15 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme': 'modern',
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://redis:6379/",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://redis:6379/0')  
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://redis:6379/0')

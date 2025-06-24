@@ -11,6 +11,76 @@ from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
 
 
+class Address(models.Model):
+
+    
+    country = models.CharField(
+        max_length=255,
+        verbose_name=_('Country'),
+        help_text=_('Country of the address'),
+        null=True,
+        blank=True
+    )
+    region = models.CharField(
+        max_length=255,
+        verbose_name=_('Region/State'),
+        help_text=_('Region or state within the country'),
+        null=True,
+        blank=True
+    )
+    subregion = models.CharField(
+        max_length=255,
+        verbose_name=_('Subregion/Province'),
+        help_text=_('Subregion or province within the region'),
+        null=True,
+        blank=True
+    )
+    city = models.CharField(
+        max_length=255,
+        verbose_name=_('City'),
+        help_text=_('City of the address'),
+        null=True,
+        blank=True
+    )
+    apt_number = models.PositiveIntegerField(
+        verbose_name=_('Apartment number'),
+        null=True,
+        blank=True
+    )
+    street_number = models.PositiveIntegerField(
+        verbose_name=_('Street number'),
+        null=True,
+        blank=True
+    )
+    street = models.CharField(max_length=255,blank=False,null=True)
+
+    postal_code = models.CharField(
+        max_length=10,
+        verbose_name=_('Postal code'),
+        help_text=_('Postal code'),
+        blank=True,
+        null=True,
+    )
+    latitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        verbose_name=_('Latitude'),
+        help_text=_('Geographical latitude of the address'),
+        null=True,
+        blank=True
+    )
+    longitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        verbose_name=_('Longitude'),
+        help_text=_('Geographical longitude of the address'),
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return f'{self.street}, {self.city}, {self.region}, {self.country}'
+
 class ServicesManager(models.Manager):
     """Custom manager for services-related models"""
     
@@ -128,13 +198,8 @@ class ServiceProvider(ProfileMixin):
     website = models.URLField(blank=True)
     
     # Location and Service Area
-    address = models.TextField()
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100, default='Nigeria')
-    postal_code = models.CharField(max_length=20, blank=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    address = models.ForeignKey(Address, on_delete= models.SET_NULL, null=True, blank=True)
+   
     service_radius = models.PositiveIntegerField(
         default=10,
         help_text="Service radius in kilometers"
@@ -184,7 +249,7 @@ class ServiceProvider(ProfileMixin):
         null=True,
         blank=True
     )
-    currency = models.CharField(max_length=3, default='NGN')
+    currency = models.CharField(max_length=3, null=True,blank=False)
     
     # Status flags
     is_active = models.BooleanField(default=True)
@@ -200,7 +265,6 @@ class ServiceProvider(ProfileMixin):
         ordering = ['-created_at']
         indexes = [
             models.Index(fields=['profile_id', 'is_active']),
-            models.Index(fields=['city', 'country']),
             models.Index(fields=['is_active', 'is_featured']),
             models.Index(fields=['average_rating']),
         ]
@@ -218,6 +282,7 @@ class Service(ProfileMixin):
         on_delete=models.CASCADE,
         related_name='services'
     )
+
     category = models.ForeignKey(
         ServiceCategory,
         on_delete=models.CASCADE,

@@ -36,9 +36,9 @@ class ServiceProviderFilter(django_filters.FilterSet):
     
     # Basic filters
     business_name = django_filters.CharFilter(lookup_expr='icontains')
-    city = django_filters.CharFilter(lookup_expr='icontains')
-    state = django_filters.CharFilter(lookup_expr='icontains')
-    country = django_filters.CharFilter(lookup_expr='iexact')
+    # city = django_filters.CharFilter(lookup_expr='icontains')
+    # state = django_filters.CharFilter(lookup_expr='icontains')
+    # country = django_filters.CharFilter(lookup_expr='iexact')
     
     # Specialization filters
     specialization = django_filters.CharFilter(
@@ -87,7 +87,8 @@ class ServiceProviderFilter(django_filters.FilterSet):
     class Meta:
         model = ServiceProvider
         fields = [
-            'business_name', 'city', 'state', 'country', 'is_available',
+            'business_name', 'is_available',
+            # 'business_name', 'city', 'state', 'country', 'is_available',
             'is_featured', 'is_verified', 'background_checked'
         ]
     

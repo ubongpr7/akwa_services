@@ -87,7 +87,7 @@ class ServiceProviderListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceProvider
         fields = [
-            'id', 'business_name', 'slug', 'short_description', 'city', 'state',
+            'id', 'business_name', 'slug', 'short_description',
             'average_rating', 'total_reviews', 'total_jobs_completed',
             'hourly_rate_min', 'hourly_rate_max', 'currency', 'is_available',
             'is_featured', 'is_verified', 'background_checked', 'response_time',
@@ -126,8 +126,7 @@ class ServiceProviderDetailSerializer(serializers.ModelSerializer):
         model = ServiceProvider
         fields = [
             'id', 'business_name', 'slug', 'description', 'short_description',
-            'phone', 'email', 'website', 'address', 'city', 'state', 'country',
-            'postal_code', 'latitude', 'longitude', 'service_radius',
+            'phone', 'email', 'website', 'address', 'service_radius',
             'license_number', 'insurance_policy', 'years_in_business',
             'employee_count', 'specializations', 'average_rating', 'total_reviews',
             'total_jobs_completed', 'is_available', 'response_time',

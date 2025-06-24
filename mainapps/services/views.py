@@ -101,7 +101,7 @@ class ServiceProviderViewSet(viewsets.ModelViewSet):
     queryset = ServiceProvider.objects.all()
     filterset_class = ServiceProviderFilter
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    search_fields = ['business_name', 'description', 'city', 'specializations__name']
+    search_fields = ['business_name', 'description','address__city', 'specializations__name']
     ordering_fields = [
         'business_name', 'average_rating', 'total_reviews', 'total_jobs_completed',
         'hourly_rate_min', 'years_in_business', 'created_at'
